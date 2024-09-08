@@ -8,18 +8,9 @@ classdef Fir_error_tests < matlab.unittest.TestCase
         function setup(self)
             close all;
 
-            % reference design
-            rng(100);
-            self.fir = design_task_2_task_2_a_filter;
-            number_of_taps = length(self.fir.Numerator);
-            n = 100;
-            self.sample = zeros(n, 1);
-            self.sample(1) = 1;
-            self.ref_output = filter(self.fir, self.sample);    
+            self.compute_reference_output;
+            self.draw_reference_frequency_response;
 
-            figure;
-            freqz(self.ref_output);
-            title('Reference Magnitude');
         end
     end
     methods(Test)
@@ -40,6 +31,23 @@ classdef Fir_error_tests < matlab.unittest.TestCase
 
             mse = mean((self.ref_output-fixed_output).^2);
             self.verifyLessThan(mse, 8.13e-12);
+        end
+    end
+    methods
+        function compute_reference_output(self)
+            rng(100);
+            self.fir = design_task_2_task_2_a_filter;
+            number_of_taps = length(self.fir.Numerator);
+            n = 100;
+            self.sample = zeros(n, 1);
+            self.sample(1) = 1;
+            self.ref_output = filter(self.fir, self.sample);
+        end
+
+        function draw_reference_frequency_response(self)
+            figure;
+            freqz(self.ref_output);
+            title('Reference Magnitude');
         end
     end
 end

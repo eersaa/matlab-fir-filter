@@ -21,8 +21,8 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             fir_fixed = copy(self.fir);
             fir_fixed.Numerator = fi(fir_fixed.Numerator, signed, ...
                                     word_length, fraction_bits);
-            % fir_fixed.Arithmetic = "fixed";
-
+            fir_fixed.Arithmetic = "fixed";
+            self.get_filter_specs(fir_fixed);
             fixed_output = filter(fir_fixed, self.sample);
 
             self.draw_frequency_response(fixed_output, 'Fixed-point');
@@ -44,8 +44,16 @@ classdef Fir_error_tests < matlab.unittest.TestCase
 
         function draw_frequency_response(self, signal, signal_name)
             figure;
-            freqz(signal);
+            freqz(double(signal));
             title(append(signal_name, ' Magnitude'));
+        end
+
+        function get_filter_specs(self, filter)
+            filename = 'filter_specs.txt'
+            delete(filename);
+            diary(filename);
+            get(filter)
+            diary off;
         end
     end
 end

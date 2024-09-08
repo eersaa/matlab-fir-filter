@@ -9,7 +9,7 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             close all;
 
             self.compute_reference_output;
-            self.draw_reference_frequency_response;
+            self.draw_frequency_response(self.ref_output, 'Reference');
 
         end
     end
@@ -25,9 +25,7 @@ classdef Fir_error_tests < matlab.unittest.TestCase
 
             fixed_output = filter(fir_fixed, self.sample);
             
-            figure;
-            freqz(double(fixed_output));
-            title('Fixed-point Magnitude');
+            self.draw_frequency_response(fixed_output, 'Fixed-point');
 
             mse = mean((self.ref_output-fixed_output).^2);
             self.verifyLessThan(mse, 8.13e-12);
@@ -44,10 +42,10 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             self.ref_output = filter(self.fir, self.sample);
         end
 
-        function draw_reference_frequency_response(self)
+        function draw_frequency_response(self, signal, signal_name)
             figure;
-            freqz(self.ref_output);
-            title('Reference Magnitude');
+            freqz(signal);
+            title(append(signal_name, ' Magnitude'));
         end
     end
 end

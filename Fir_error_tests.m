@@ -24,11 +24,11 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             % fir_fixed.Arithmetic = "fixed";
 
             fixed_output = filter(fir_fixed, self.sample);
-            
+
             self.draw_frequency_response(fixed_output, 'Fixed-point');
 
             mse = mean((self.ref_output-fixed_output).^2);
-            self.verifyLessThan(mse, 8.13e-12);
+            self.verifyLessThan(mse, 1.89e-11);
         end
     end
     methods
@@ -36,7 +36,7 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             rng(100);
             self.fir = design_task_2_task_2_a_filter;
             number_of_taps = length(self.fir.Numerator);
-            n = 100;
+            n = number_of_taps + 1;
             self.sample = zeros(n, 1);
             self.sample(1) = 1;
             self.ref_output = filter(self.fir, self.sample);

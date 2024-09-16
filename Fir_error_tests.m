@@ -10,6 +10,7 @@ classdef Fir_error_tests < matlab.unittest.TestCase
 
             self.compute_reference_output;
             self.draw_frequency_response(self.ref_output, 'Reference');
+            self.write_coefficients(self.fir, 'coeffs.txt');
 
         end
     end
@@ -54,6 +55,19 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             diary(filename);
             get(filter)
             diary off;
+        end
+
+        function write_coefficients(self, filter, filename)
+            coeffs = filter.Numerator;
+            fileID = fopen(filename, 'w');
+            for i = 1:length(coeffs)
+                if i == length(coeffs)
+                    fprintf(fileID, '%f', coeffs(i)); % Last coefficient without a comma
+                else
+                    fprintf(fileID, '%f,\n', coeffs(i));
+                end
+            end
+            fclose(fileID);
         end
     end
 end

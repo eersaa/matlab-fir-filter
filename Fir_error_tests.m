@@ -10,7 +10,9 @@ classdef Fir_error_tests < matlab.unittest.TestCase
 
             self.compute_reference_output;
             self.draw_frequency_response(self.ref_output, 'Reference');
+            self.write_data_to_file(self.sample, 'input.txt');
             self.write_coefficients(self.fir, 'coeffs.txt');
+            self.write_data_to_file(self.ref_output, 'reference.txt');
 
         end
     end
@@ -67,6 +69,12 @@ classdef Fir_error_tests < matlab.unittest.TestCase
                     fprintf(fileID, '%f,\n', coeffs(i));
                 end
             end
+            fclose(fileID);
+        end
+
+        function write_data_to_file(self, data, filename)
+            fileID = fopen(filename, 'w');
+            fprintf(fileID, '%f\n', data);
             fclose(fileID);
         end
     end

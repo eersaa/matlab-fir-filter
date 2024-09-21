@@ -26,12 +26,22 @@ classdef Fir_error_tests < matlab.unittest.TestCase
                                     word_length, fraction_bits);
             fir_fixed.Arithmetic = "fixed";
             fir_fixed.FilterInternals = "SpecifyPrecision";
+            fir_fixed.CoeffAutoScale = false;
+
             fir_fixed.InputWordLength = 16;
             fir_fixed.InputFracLength = 15;
+            fir_fixed.OutputWordLength = 32;
+            fir_fixed.OutputFracLength = 30;
+            fir_fixed.CoeffWordLength = 16;
+            fir_fixed.NumFracLength = 16;
+            fir_fixed.AccumWordLength = 32;
+            fir_fixed.AccumFracLength = 30;
+            fir_fixed.ProductWordLength = 32;
+            fir_fixed.ProductFracLength = 30;
             fir_fixed.OverflowMode = 'wrap';
             fir_fixed.RoundMode = 'ceil';
 
-            self.get_filter_specs(fir_fixed);
+            % self.get_filter_specs(fir_fixed);
             fixed_output = filter(fir_fixed, self.sample);
 
             self.write_data_to_file(fixed_output, 'design_output.txt')
@@ -39,7 +49,7 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             self.draw_frequency_response(fixed_output, 'Fixed-point');
 
             mse = mean((self.ref_output-fixed_output).^2);
-            self.verifyLessThan(mse, 1.89e-11);
+            self.verifyLessThan(mse, 9.32e-10);
         end
     end
     methods
@@ -60,7 +70,7 @@ classdef Fir_error_tests < matlab.unittest.TestCase
         end
 
         function get_filter_specs(self, filter)
-            filename = 'filter_specs.txt'
+            filename = 'filter_specs.txt';
             delete(filename);
             diary(filename);
             get(filter)

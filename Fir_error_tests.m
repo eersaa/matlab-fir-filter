@@ -25,8 +25,16 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             fir_fixed.Numerator = fi(fir_fixed.Numerator, signed, ...
                                     word_length, fraction_bits);
             fir_fixed.Arithmetic = "fixed";
+            fir_fixed.FilterInternals = "SpecifyPrecision";
+            fir_fixed.InputWordLength = 16;
+            fir_fixed.InputFracLength = 15;
+            fir_fixed.OverflowMode = 'wrap';
+            fir_fixed.RoundMode = 'ceil';
+
             self.get_filter_specs(fir_fixed);
             fixed_output = filter(fir_fixed, self.sample);
+
+            self.write_data_to_file(fixed_output, 'design_output.txt')
 
             self.draw_frequency_response(fixed_output, 'Fixed-point');
 

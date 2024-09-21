@@ -44,11 +44,22 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             % self.get_filter_specs(fir_fixed);
             fixed_output = filter(fir_fixed, self.sample);
 
-            self.write_data_to_file(fixed_output, 'design_output.txt')
+            self.write_data_to_file(fixed_output, 'design_output.txt');
 
             self.draw_frequency_response(fixed_output, 'Fixed-point');
 
             mse = mean((self.ref_output-fixed_output).^2);
+            self.verifyLessThan(mse, 9.32e-10);
+        end
+
+        function cpp_should_be_within_error_tolerance_with_reference(self)
+            output = mfun_acfirconstcoeffs(self.sample);
+
+            self.write_data_to_file(output, 'cpp_design_output.txt');
+
+            self.draw_frequency_response(output, 'C++ Fixed-point');
+
+            mse = mean((self.ref_output-output').^2);
             self.verifyLessThan(mse, 9.32e-10);
         end
     end

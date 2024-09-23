@@ -48,8 +48,8 @@ classdef Fir_error_tests < matlab.unittest.TestCase
 
             self.draw_frequency_response(fixed_output, 'Fixed-point');
 
-            mse = mean((self.ref_output-fixed_output).^2);
-            self.verifyLessThan(mse, 9.32e-10);
+            mse = mean((self.ref_output-double(fixed_output)).^2);
+            self.verifyLessThan(mse, 2.43e-11);
         end
 
         function cpp_should_be_within_error_tolerance_with_reference(self)
@@ -60,7 +60,7 @@ classdef Fir_error_tests < matlab.unittest.TestCase
             self.draw_frequency_response(output, 'C++ Fixed-point');
 
             mse = mean((self.ref_output-output').^2);
-            self.verifyLessThan(mse, 9.32e-10);
+            self.verifyLessThan(mse, 2.43e-11);
         end
     end
     methods

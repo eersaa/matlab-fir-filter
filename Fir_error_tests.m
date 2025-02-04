@@ -10,5 +10,13 @@ for i = 0:length(sample)-1
     output(i+1) = fir_filter(sample(i+1));
 end
 
+% draw_frequency_response(output, 'Design output');
+
 mse = mean(ref_output-output).^2;
-assert(mse < 2.43e-11, "Test failed, MSE too high");
+assert(mse < 2.43e-11, "Test failed, MSE too high: " + mse);
+
+function draw_frequency_response(signal, signal_name)
+    figure;
+    freqz(double(signal));
+    title(append(signal_name, ' Magnitude'));
+end

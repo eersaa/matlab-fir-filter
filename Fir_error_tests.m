@@ -13,22 +13,6 @@ end
 mse = mean(ref_output-output).^2;
 assert(mse < 2.43e-11, "Test failed, MSE too high");
 
-function coeffs = get_fir_coefficients()
-    fir = design_task_2_task_2_a_filter;
-    coeffs = fir.Numerator;
-end
-
-function y = fir_filter(x)
-    persistent firFilter;
-    if isempty(firFilter)
-        % Initialize the FIR filter with the coefficients from the shared function
-        coefficients = get_fir_coefficients();
-        firFilter = dsp.FIRFilter('Numerator', coefficients);
-    end
-    % Apply the FIR filter to the input signal
-    y = firFilter(x);
-end
-
 % classdef Fir_error_tests < matlab.unittest.TestCase
 %     properties (SetAccess = private)
 %         fir

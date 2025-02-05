@@ -7,7 +7,7 @@ ref_output = filter(fir, sample);
 output = zeros(length(sample), 1);
 
 for i = 0:length(sample)-1
-    output(i+1) = fir_filter(sample(i+1));
+    output(i+1) = fir_filter_symmetric(sample(i+1));
 end
 
 % draw_frequency_response(output, 'Design output');

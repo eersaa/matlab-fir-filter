@@ -12,10 +12,10 @@ function data_out = fir_filter_symmetric(data_in)
 
     accumulator = 0.0;
 
-    for i = 1:(number_of_taps/2)
+    for i = (number_of_taps/2):-1:1
         accumulator = accumulator ...
                         + coefficients(i) ...
-                            * (register(i) + register(number_of_taps + 1 - i));
+                            * (register(i) + register(number_of_taps - 1 - i));
     end
 
     data_out = accumulator;

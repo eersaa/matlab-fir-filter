@@ -12,7 +12,7 @@ end
 
 % draw_frequency_response(output, 'Design output');
 
-mse = mean(ref_output-output).^2;
+mse = mean((ref_output-output).^2);
 assert(mse < 4.4147e-11, "Test failed, MSE too high: " + mse); % MSE threshold is from lowest result in fixed-point conversion
 
 function draw_frequency_response(signal, signal_name)
